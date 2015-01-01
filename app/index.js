@@ -144,7 +144,10 @@ module.exports = yeoman.generators.Base.extend({
     		angularModules.push("'ngTouch'");
     	}
 
-    	this.angularDependencies = angularModules;
+    	// format module list nicely
+    	if (angularModules.length) {
+    		this.angularDependencies = '\n    ' + angularModules.join(',\n    ') + '\n  ';
+    	}
 
     	done();
     }.bind(this));
@@ -171,6 +174,18 @@ module.exports = yeoman.generators.Base.extend({
 		// copy all static public files that don't change with respect to user preferences
 		staticPublicFiles: function() {
 			this.directory('public', 'public');
+		},
+
+		JSTemplates: function() {
+			this.fs.copyTpl(
+				this.templatePath('app.js'),
+				this.destinationPath('app.js'),
+				{
+					appName: this.appName,
+					moduleList: this.angularDependencies,
+					ngRoute: this.routeModule
+				}
+				);
 		},
 
 		projectfiles: function () {
