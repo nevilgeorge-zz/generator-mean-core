@@ -4,6 +4,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var path = require('path');
 
 module.exports = yeoman.generators.Base.extend({
 	initializing: function () {
@@ -156,11 +157,6 @@ module.exports = yeoman.generators.Base.extend({
 
 	// write/ copy generator specific files
 	writing: {
-		createFolders: function() {
-			this.mkdir('public');
-			this.mkdir('public/images');
-		},
-
 		app: function () {
 			this.fs.copy(
 				this.templatePath('_package.json'),
@@ -170,6 +166,11 @@ module.exports = yeoman.generators.Base.extend({
 				this.templatePath('_bower.json'),
 				this.destinationPath('bower.json')
 				);
+		},
+
+		// copy all static public files that don't change with respect to user preferences
+		staticPublicFiles: function() {
+			this.directory('public', 'public');
 		},
 
 		projectfiles: function () {
