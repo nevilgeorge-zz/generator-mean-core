@@ -176,18 +176,44 @@ module.exports = yeoman.generators.Base.extend({
 			this.directory('public', 'public');
 		},
 
-		JSTemplates: function() {
+		addIndexFile: function() {
 			this.fs.copyTpl(
-				this.templatePath('app.js'),
-				this.destinationPath('app.js'),
+				this.templatePath('public/index.html'),
+				this.destinationPath('public/index.html'),
+				{
+					appName: this.appName,
+					
+				}
+				)
+		},
+
+		// create intitial JavaScript files
+		addJSTemplates: function() {
+			// create app.js with parameters file and copy to public/scripts
+			this.log('Now starting on JS templates');
+			this.fs.copyTpl(
+				this.templatePath('js_templates/app.js'),
+				this.destinationPath('public/scripts/app.js'),
 				{
 					appName: this.appName,
 					moduleList: this.angularDependencies,
 					ngRoute: this.routeModule
 				}
 				);
+
+			// create sample controller, MainCtrl, and copy to the correct location
+			this.fs.copyTpl(
+				this.templatePath('js_templates/controller.js'),
+				this.destinationPath('public/scripts/controllers/main.js'),
+				{
+					appName: this.appName,
+					controllerName: 'Main'
+				}
+				);
+			this.log('Done with JS templates');
 		},
 
+		// copy project-related files
 		projectfiles: function () {
 			this.fs.copy(
 				this.templatePath('editorconfig'),

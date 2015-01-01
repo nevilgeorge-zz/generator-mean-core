@@ -1,4 +1,3 @@
-// app.js template
 'use strict';
 
 /**
