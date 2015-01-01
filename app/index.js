@@ -10,8 +10,9 @@ module.exports = yeoman.generators.Base.extend({
 		this.pkg = require('../package.json');
 	},
 
+	// Prompt users for options
 	prompting: function () {
-	var done = this.async();
+		var done = this.async();
 
     // Have Yeoman greet the user.
     this.log(yosay(
@@ -28,17 +29,14 @@ module.exports = yeoman.generators.Base.extend({
     {
     	type: 'confirm',
     	name: 'addBootstrap',
-    	message: 'Would you like to add Boostrap to your project?'
+    	message: 'Would you like to add Boostrap to your project?',
+    	default: true
     },
     {
     	type: 'confirm',
     	name: 'useSass',
-    	message: 'Would you like to use Sass in your project?'
-    },
-    {
-    	type: 'confirm',
-    	name: 'addBootstrap',
-    	message: 'Would you like to add Boostrap to your project?'
+    	message: 'Would you like to use Sass in your project?',
+    	default: false
     },
     {
     	type: 'checkbox',
@@ -86,14 +84,10 @@ module.exports = yeoman.generators.Base.extend({
     		checked: true
     	}
     	]
-    }];
+    }
+    ];
 
-    this.prompt(prompts, function (err, props) {
-
-    	// check for error and emit it if one was returned
-    	if (err) {
-    		return this.emit('error', err);
-    	}
+    this.prompt(prompts, function (props) {
 
     	// define properties of the generator from the prompts' responses
     	this.appName = props.appName;
@@ -153,35 +147,57 @@ module.exports = yeoman.generators.Base.extend({
 
     	done();
     }.bind(this));
-},
-
-writing: {
-	app: function () {
-		this.fs.copy(
-			this.templatePath('_package.json'),
-			this.destinationPath('package.json')
-			);
-		this.fs.copy(
-			this.templatePath('_bower.json'),
-			this.destinationPath('bower.json')
-			);
 	},
 
-	projectfiles: function () {
-		this.fs.copy(
-			this.templatePath('editorconfig'),
-			this.destinationPath('.editorconfig')
-			);
-		this.fs.copy(
-			this.templatePath('jshintrc'),
-			this.destinationPath('.jshintrc')
-			);
-	}
-},
+	// Save configurations and configure the project files
+	configuring: {
 
-install: function () {
-	this.installDependencies({
-		skipInstall: this.options['skip-install']
-	});
-}
+	},
+
+	// write/ copy generator specific files
+	writing: {
+		createFolders: function() {
+			this.mkdir('public');
+			this.mkdir('public/images');
+		},
+
+		app: function () {
+			this.fs.copy(
+				this.templatePath('_package.json'),
+				this.destinationPath('package.json')
+				);
+			this.fs.copy(
+				this.templatePath('_bower.json'),
+				this.destinationPath('bower.json')
+				);
+		},
+
+		projectfiles: function () {
+			this.fs.copy(
+				this.templatePath('editorconfig'),
+				this.destinationPath('.editorconfig')
+				);
+			this.fs.copy(
+				this.templatePath('jshintrc'),
+				this.destinationPath('.jshintrc')
+				);
+			// this.fs.copy(
+			// 	this.templatePath('_Gruntfile.js'),
+			// 	this.destinationPath('Gruntfile.js')
+			// 	);
+			
+		}
+	},
+
+	// install bower and npm dependencies
+	install: function () {
+		this.installDependencies({
+			skipInstall: this.options['skip-install']
+		});
+	},
+
+	// say bye
+	end: function() {
+		//this.log(yosay('Thanks for using Yeoman! Happy hacking!'));
+	}
 });
