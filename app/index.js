@@ -155,7 +155,10 @@ module.exports = yeoman.generators.Base.extend({
 
 	// Save configurations and configure the project files
 	configuring: {
-
+		setAppName: function() {
+			this.appName = this._.camelize(this._.slugify(this._.humanize(this.appName)));
+			this.log(this.appName);
+		}
 	},
 
 	// write/ copy generator specific files
@@ -176,13 +179,14 @@ module.exports = yeoman.generators.Base.extend({
 			this.directory('public', 'public');
 		},
 
+		// add index file to the "public" directory
 		addIndexFile: function() {
 			this.fs.copyTpl(
 				this.templatePath('public/index.html'),
 				this.destinationPath('public/index.html'),
 				{
 					appName: this.appName,
-					
+					ngRoute: this.routeModule
 				}
 				)
 		},
@@ -190,7 +194,6 @@ module.exports = yeoman.generators.Base.extend({
 		// create intitial JavaScript files
 		addJSTemplates: function() {
 			// create app.js with parameters file and copy to public/scripts
-			this.log('Now starting on JS templates');
 			this.fs.copyTpl(
 				this.templatePath('js_templates/app.js'),
 				this.destinationPath('public/scripts/app.js'),
@@ -210,7 +213,6 @@ module.exports = yeoman.generators.Base.extend({
 					controllerName: 'Main'
 				}
 				);
-			this.log('Done with JS templates');
 		},
 
 		// copy project-related files
