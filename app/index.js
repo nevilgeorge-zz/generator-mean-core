@@ -220,7 +220,8 @@ module.exports = yeoman.generators.Base.extend({
 				);
 		},
 
-		serverFiles = function() {
+		// copy backend files into the new app
+		serverFiles: function() {
 			// copy main server file, server.js, passing in the app name
 			this.fs.copyTpl(
 				this.templatePath('server.js'),
