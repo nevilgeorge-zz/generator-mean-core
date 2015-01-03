@@ -157,7 +157,6 @@ module.exports = yeoman.generators.Base.extend({
 	configuring: {
 		setAppName: function() {
 			this.appName = this._.camelize(this._.slugify(this._.humanize(this.appName)));
-			this.log(this.appName);
 		}
 	},
 
@@ -179,7 +178,7 @@ module.exports = yeoman.generators.Base.extend({
 			this.directory('public', 'public');
 		},
 
-		// add index file to the "public" directory
+		// add index file to the "public" directory, passing in the appName and whether or not ngRoute is being used
 		addIndexFile: function() {
 			this.fs.copyTpl(
 				this.templatePath('public/index.html'),
@@ -216,7 +215,7 @@ module.exports = yeoman.generators.Base.extend({
 		},
 
 		// copy project-related files
-		projectfiles: function () {
+		projectFiles: function () {
 			this.fs.copy(
 				this.templatePath('editorconfig'),
 				this.destinationPath('.editorconfig')
