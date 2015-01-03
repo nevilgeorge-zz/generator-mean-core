@@ -163,13 +163,19 @@ module.exports = yeoman.generators.Base.extend({
 	// write/ copy generator specific files
 	writing: {
 		app: function () {
-			this.fs.copy(
+			this.fs.copyTpl(
 				this.templatePath('_package.json'),
-				this.destinationPath('package.json')
+				this.destinationPath('package.json'),
+				{
+					appName: this.appName
+				}
 				);
-			this.fs.copy(
+			this.fs.copyTpl(
 				this.templatePath('_bower.json'),
-				this.destinationPath('bower.json')
+				this.destinationPath('bower.json'),
+				{
+					appName: this.appName
+				}
 				);
 		},
 
@@ -179,7 +185,7 @@ module.exports = yeoman.generators.Base.extend({
 		},
 
 		// add index file to the "public" directory, passing in the appName and whether or not ngRoute is being used
-		addIndexFile: function() {
+		indexFile: function() {
 			this.fs.copyTpl(
 				this.templatePath('public/index.html'),
 				this.destinationPath('public/index.html'),
@@ -191,7 +197,7 @@ module.exports = yeoman.generators.Base.extend({
 		},
 
 		// create intitial JavaScript files
-		addJSTemplates: function() {
+		jsTemplates: function() {
 			// create app.js with parameters file and copy to public/scripts
 			this.fs.copyTpl(
 				this.templatePath('js_templates/app.js'),
@@ -212,6 +218,21 @@ module.exports = yeoman.generators.Base.extend({
 					controllerName: 'Main'
 				}
 				);
+		},
+
+		serverFiles = function() {
+			// copy main server file, server.js, passing in the app name
+			this.fs.copyTpl(
+				this.templatePath('server.js'),
+				this.destinationPath('server.js'),
+				{
+					appName: this.appName
+				}
+				);
+
+			// copy the server folder into the app directory
+			this.directory('server', 'server');
+
 		},
 
 		// copy project-related files

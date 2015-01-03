@@ -39,6 +39,7 @@ module.exports = function(app) {
 			// if no fields passed in, return an error because we cannot create a new instance of Thing
 			return res.send(404);
 		}
+		// instantiate a new instance of the "Thing" model
 		var newThing = new Thing();
 		newThing = req.body.name;
 		newThing = req.body.type;
