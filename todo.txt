@@ -1,11 +1,10 @@
 TO-DO
 
 # Generate css/scss files depending on user preferences
-# Add bootstrap to bower dependencies
 # Figure out how to install bower dependencies
+# Wiredep bower dependencies into index.html
 
 ### DONE WITH CLIENT-SIDE ###
 
-# Write node.js server file
-# Create server folder in app/templates and copy folder over in generator
+# Create config folder and add database.js inside
 # 

@@ -147,6 +147,7 @@ module.exports = yeoman.generators.Base.extend({
     	// format module list nicely
     	if (angularModules.length) {
     		this.angularDependencies = '\n    ' + angularModules.join(',\n    ') + '\n  ';
+            this.bowerModules = angularModules;
     	}
 
     	done();
@@ -157,7 +158,16 @@ module.exports = yeoman.generators.Base.extend({
 	configuring: {
 		setAppName: function() {
 			this.appName = this._.camelize(this._.slugify(this._.humanize(this.appName)));
-		}
+		},
+        aggregateNpmModules: function() {
+            this.npmModules = ['body-parser', 'cookie-parser', 'express', 'method-override', 'mongoose'];
+        },
+        aggregateBowerModules: function() {
+            // add bootstrap through bower if required by user
+            if (this.addBootstrap) {
+                this.bowerModules.push('bootstrap');
+            }
+        }
 	},
 
 	// write/ copy generator specific files
@@ -255,10 +265,18 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	// install bower and npm dependencies
-	install: function () {
-		this.installDependencies({
-			skipInstall: this.options['skip-install']
-		});
+	install: {
+        npmDependencies: function() {
+            if (!this.options['skip-install']) {
+                this.npmInstall(this.npmModules, { 'save': true });
+            }
+        },
+
+        bowerDependencies: function() {
+            if (!this.options['skip-install']) {
+                this.bowerInstall(this.bowerModules, { 'save': true });
+            }
+        }
 	},
 
 	// say bye

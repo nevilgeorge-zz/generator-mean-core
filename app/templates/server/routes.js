@@ -1,7 +1,7 @@
 // server/routes.js
 
 // add the 'Thing' model to this file
-var Thing = require('models/thing.js');
+var Thing = require('./models/thing.js');
 
 module.exports = function(app) {
 
