@@ -244,6 +244,16 @@ module.exports = yeoman.generators.Base.extend({
 			// copy the server folder into the app directory
 			this.directory('server', 'server');
 
+            // copy config folder to app directory
+            this.directory('config', 'config');
+            // create database file that includes the url to connect the MongoDB to
+            this.fs.copyTpl(
+                this.templatePath('js_templates/database.js'),
+                this.destinationPath('config/database.js'),
+                {
+                    appName: this.appName
+                }
+                );
 		},
 
 		// copy project-related files

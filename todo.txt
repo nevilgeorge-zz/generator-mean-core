@@ -1,10 +1,9 @@
 TO-DO
 
 # Generate css/scss files depending on user preferences
-# Figure out how to install bower dependencies
+# Figure out how to install bower dependencies - wiredep might install dependencies too
 # Wiredep bower dependencies into index.html
 
 ### DONE WITH CLIENT-SIDE ###
 
-# Create config folder and add database.js inside
-# 
+ 
